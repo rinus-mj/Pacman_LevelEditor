@@ -29,6 +29,54 @@ public class LevelComponent extends JComponent {
         this.type = type;
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        switch (type) {
+            case Empty:
+                drawEmpty(g);
+                break;
+            case Pacman:
+                drawPacman(g);
+                break;
+            case GhostOrange:
+                drawGhost(g, Color.ORANGE);
+                break;
+            case GhostPink:
+                drawGhost(g, Color.PINK);
+                break;
+            case GhostRed:
+                drawGhost(g, Color.RED);
+                break;
+            case GhostCyan:
+                drawGhost(g, Color.CYAN);
+                break;
+            case Pellet:
+                drawPellet(g);
+                break;
+            case SuperPellet:
+                drawSuperPellet(g);
+                break;
+            case WallHorizontal:
+                drawHorizontalLine(g);
+                break;
+            case WallVertical:
+                drawVerticalLine(g);
+                break;
+            case WallUpLeftCorner:
+                drawLeftUpCorner(g);
+                break;
+            case WallUpRightCorner:
+                drawRightUpCorner(g);
+                break;
+            case WallDownLeftCorner:
+                drawLeftDownCorner(g);
+                break;
+            case WallDownRightCorner:
+                drawRightDownCorner(g);
+                break;
+        }
+    }
+
     public void drawPacman(Graphics g) {
         //body
         g.setColor(Color.YELLOW);
@@ -67,6 +115,7 @@ public class LevelComponent extends JComponent {
     }
 
     public void drawGhost(Graphics g, Color color) {
+        g.setColor(color);
         //body
         g.fillRoundRect(
                 xPos * CELLSIZE - 5,
@@ -333,6 +382,23 @@ public class LevelComponent extends JComponent {
                 yPos * CELLSIZE + 15,
                 xPos * CELLSIZE + CELLSIZE - 1,
                 yPos * CELLSIZE + 15
+        );
+    }
+
+    private void drawEmpty(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(
+                0,
+                0,
+                CELLSIZE,
+                CELLSIZE
+        );
+        g.setColor(Color.WHITE);
+        g.drawRect(
+                0,
+                0,
+                CELLSIZE,
+                CELLSIZE
         );
     }
 

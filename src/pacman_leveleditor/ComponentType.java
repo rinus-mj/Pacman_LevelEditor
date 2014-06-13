@@ -18,7 +18,7 @@ public enum ComponentType {
     GhostRed, 
     GhostCyan, 
     Pellet, 
-    Superpellet, 
+    SuperPellet, 
     WallHorizontal, 
     WallVertical, 
     WallUpLeftCorner, 

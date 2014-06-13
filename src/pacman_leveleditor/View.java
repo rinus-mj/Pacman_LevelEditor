@@ -34,8 +34,8 @@ public class View extends JFrame {
     private JButton saveLevelButton;
     private JButton newLevelButton;
 
-    public static final int FRAME_WIDTH = 740;
-    public static final int FRAME_HEIGHT = 918;
+    public static final int FRAME_WIDTH = 900;
+    public static final int FRAME_HEIGHT = 900;
 
     public View() {
 
@@ -83,7 +83,7 @@ public class View extends JFrame {
 
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
-        controlPanel.setPreferredSize(new Dimension(FRAME_WIDTH, 35));
+        //controlPanel.setPreferredSize(new Dimension(FRAME_WIDTH, 35));
         controlPanel.setBackground(Color.BLACK);
 
         controlPanel.add(newLevelButton);
@@ -92,7 +92,7 @@ public class View extends JFrame {
 
         contentPane.add(controlPanel, BorderLayout.NORTH);
         contentPane.add(levelPanel, BorderLayout.CENTER);
-        contentPane.add(csPanel, BorderLayout.SOUTH);
+        contentPane.add(csPanel, BorderLayout.EAST);
 
         setFocusable(true);
 
