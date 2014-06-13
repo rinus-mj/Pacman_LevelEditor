@@ -7,15 +7,16 @@
 package pacman_leveleditor;
 
 /**
- * @author Marinus
+ *
+ * @author ivanweller
  */
-public class Pacman_LevelEditor 
-{
-
+public class LevelEditor {
     
-    public static void main(String[] args) 
-    {
-        // TODO code application logic here
+    public static void main(String[] args) {
+        
+        View view = new View();
+        view.setVisible(true);
+        
     }
-
+    
 }
