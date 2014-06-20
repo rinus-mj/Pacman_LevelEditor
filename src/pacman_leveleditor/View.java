@@ -8,11 +8,9 @@ package pacman_leveleditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +21,8 @@ import javax.swing.JPanel;
  */
 public class View extends JFrame {
 
+    public LevelComponent selectedComponent;
+    
     private Level levelPanel;
     private ComponentSelectPanel csPanel;
 
@@ -39,12 +39,13 @@ public class View extends JFrame {
 
     public View() {
 
+        selectedComponent = new LevelComponent(ComponentType.Pacman, null, null);
         initComponents();
     }
 
     private void initComponents() {
 
-        levelPanel = new Level();
+        levelPanel = new Level(this);
         csPanel = new ComponentSelectPanel(this);
 
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -68,7 +69,7 @@ public class View extends JFrame {
         saveLevelButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newSaveButtonActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
 
         });
@@ -77,13 +78,12 @@ public class View extends JFrame {
         loadLevelButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newSaveButtonActionPerformed(evt);
+                loadButtonActionPerformed(evt);
             }
         });
 
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
-        //controlPanel.setPreferredSize(new Dimension(FRAME_WIDTH, 35));
         controlPanel.setBackground(Color.BLACK);
 
         controlPanel.add(newLevelButton);
@@ -97,14 +97,33 @@ public class View extends JFrame {
         setFocusable(true);
 
     }
-
-    private void newLevelButtonActionPerformed(ActionEvent evt) {
-        levelPanel = null;
-        Level level = new Level();
-        initComponents();
+    
+    public LevelComponent getSelectedComponent(){
+        return selectedComponent;
     }
 
-    private void newSaveButtonActionPerformed(ActionEvent evt) {
+    private void newLevelButtonActionPerformed(ActionEvent evt) {
+        levelPanel.clearLevel();
+        revalidate();
 
+    }
+
+    private void saveButtonActionPerformed(ActionEvent evt) {
+        
+        new FileManager().safeLevel(levelPanel.LevelToText());
+    }
+    
+    private void loadButtonActionPerformed(ActionEvent evt){
+        try{
+            char[][] levelMap = new FileManager().loadLevel();
+            if(levelMap != null){
+                levelPanel.TextToLevel(levelMap);
+            }
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
+        revalidate();
+        
     }
 }

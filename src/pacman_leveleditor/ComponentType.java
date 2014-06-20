@@ -24,6 +24,11 @@ public enum ComponentType {
     WallUpLeftCorner, 
     WallUpRightCorner, 
     WallDownLeftCorner, 
-    WallDownRightCorner 
+    WallDownRightCorner,
+    WallTUp,
+    WallTDown,
+    WallTLeft,
+    WallTRight,
+    WallEmpty
 
 }

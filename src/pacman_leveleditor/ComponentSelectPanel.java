@@ -8,8 +8,8 @@ package pacman_leveleditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -24,35 +24,40 @@ class ComponentSelectPanel extends JPanel {
 
     private LevelComponent[][] levelComponents;
 
-    private final int ROWS = 7;
+    private final int ROWS = 10;
     private final int COLS = 2;
-    
+
     private JPanel componentPanel;
     private JPanel selectedComponentPanel;
 
     public ComponentSelectPanel(View view) {
 
         this.currentView = view;
-
-        setPreferredSize(new Dimension(80, 240));
         setBackground(Color.BLACK);
-
+        this.selectedComponent = view.selectedComponent;
         initComponents();
         createLevelComponents();
+
+        selectedComponentPanel.add(selectedComponent, BorderLayout.CENTER);
+        selectedComponent.setVisible(true);
+
+        repaint();
+
     }
 
     private void initComponents() {
         setLayout(new BorderLayout());
-        
-        selectedComponent = new LevelComponent(0, 0, ComponentType.Empty);
-        selectedComponent.setSize(40, 40);
+
         componentPanel = new JPanel(new GridLayout(ROWS, COLS));
-        selectedComponentPanel = new JPanel();
+        componentPanel.setPreferredSize(new Dimension(80, 400));
+        selectedComponentPanel = new JPanel(new BorderLayout());
+        selectedComponentPanel.setPreferredSize(new Dimension(80, 80));
         levelComponents = new LevelComponent[ROWS][COLS];
-        
-        selectedComponentPanel.add(selectedComponent);
-        add(componentPanel, BorderLayout.CENTER);
-        add(selectedComponentPanel, BorderLayout.SOUTH);
+        JLabel lable = new JLabel("Selected Component");
+        selectedComponentPanel.add(lable, BorderLayout.NORTH);
+
+        add(componentPanel, BorderLayout.NORTH);
+        add(selectedComponentPanel, BorderLayout.CENTER);
 
     }
 
@@ -60,27 +65,18 @@ class ComponentSelectPanel extends JPanel {
         int index = 0;
         for (int x = 0; x < ROWS; x++) {
             for (int y = 0; y < COLS; y++) {
-                LevelComponent component = new LevelComponent(0, 0, ComponentType.values()[index]);
-                levelComponents[x][y] = component;
-                component.setSize(40, 40);
-                componentPanel.add(component);
+                if (index < ComponentType.values().length) {
+                    LevelComponent component = new LevelComponent(ComponentType.values()[index], this, selectedComponent);
+                    levelComponents[x][y] = component;
+
+                    componentPanel.add(component);
+                }
                 index++;
+
             }
         }
 
     }
 
-//    @Override
-//    public void paintComponent(Graphics g) {
-//        for (int x = 0; x < ROWS; x++) {
-//            for (int y = 0; y < COLS; y++) {
-//                levelComponents[x][y] = component;
-//            }
-//        }
-//    }
-
-    public void selectComponent() {
-
-    }
 
 }

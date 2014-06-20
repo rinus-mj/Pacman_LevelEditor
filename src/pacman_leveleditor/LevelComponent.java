@@ -7,26 +7,31 @@ package pacman_leveleditor;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  *
  * @author ivanweller
  */
-public class LevelComponent extends JComponent {
+public class LevelComponent extends JComponent implements MouseListener {
 
     private ComponentType type;
-    private int xPos;
-    private int yPos;
+    private JPanel panel;
+    private LevelComponent selectedComponent;
+    private int xPos = 0;
+    private int yPos = 0;
 
     private final int CELLSIZE = 26;
 
-    public LevelComponent(int x, int y, ComponentType type) {
-
-        xPos = x;
-        yPos = y;
-
+    public LevelComponent(ComponentType type, JPanel panel, LevelComponent selectedComponent) {
         this.type = type;
+        this.panel = panel;
+        this.selectedComponent = selectedComponent;
+
+        addMouseListener(this);
     }
 
     @Override
@@ -73,6 +78,24 @@ public class LevelComponent extends JComponent {
                 break;
             case WallDownRightCorner:
                 drawRightDownCorner(g);
+                break;
+            case WallTUp:
+                drawLeftUpCorner(g);
+                drawRightUpCorner(g);
+                break;
+            case WallTDown:
+                drawLeftDownCorner(g);
+                drawRightDownCorner(g);
+                break;
+            case WallTLeft:
+                drawLeftUpCorner(g);
+                drawLeftDownCorner(g);
+                break;
+            case WallTRight:
+                drawRightUpCorner(g);
+                drawRightDownCorner(g);
+                break;
+            case WallEmpty:
                 break;
         }
     }
@@ -400,6 +423,48 @@ public class LevelComponent extends JComponent {
                 CELLSIZE,
                 CELLSIZE
         );
+    }
+
+    public ComponentType getType() {
+        return type;
+    }
+    
+
+    public String toString() {
+        return type.toString();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+   
+        if (panel instanceof ComponentSelectPanel && selectedComponent != null) {
+            selectedComponent.type = this.type;
+        } else if (panel instanceof Level && selectedComponent != null) {
+            this.type = selectedComponent.type;
+        }
+        if (panel != null) {
+            panel.repaint();
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //
     }
 
 }
